@@ -48,7 +48,7 @@ export const SkillMatrix = new EntitySchema({
     },
     uniques: [
         {
-            columns: ['assessment_id', 'skill_id'],
+            columns: ['employee_id', 'assessment_id', 'skill_id'],
         },
     ],
     relations: {

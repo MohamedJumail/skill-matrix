@@ -1,5 +1,5 @@
 {
-  "type" : "module",
+  "type": "module",
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
@@ -11,8 +11,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@hapi/boom": "^10.0.1",
     "@hapi/hapi": "^21.4.0",
     "dotenv": "^16.5.0",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.24"
