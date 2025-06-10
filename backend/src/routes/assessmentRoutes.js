@@ -25,5 +25,13 @@ export default [
       pre: [verifyToken, roleCheck(['Lead'])],
       handler: assessmentController.getTeamAssessments,
     },
-  }
+  },
+  {
+    method: "POST",
+    path: "/api/lead/submit-rating",
+    options: {
+      pre: [verifyToken, roleCheck(['Lead'])],
+      handler: assessmentController.submitLeadRating,
+    },
+  },  
 ];

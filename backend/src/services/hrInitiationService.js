@@ -51,6 +51,9 @@ const hrInititaionService = {
         year,
         status: 0,
         is_active: true,
+        lead_comments: null,
+        hr_approve: false,
+        hr_comments: null,
       });
 
       const savedAssessment = await assessmentRepo.save(assessment);
@@ -121,14 +124,15 @@ const hrInititaionService = {
       employees_count: team.employees.length,
     }));
   },
+
   getTeamMembersByTeamId: async (team_id) => {
     const empRepo = AppDataSource.getRepository(Employee);
-  
+
     const members = await empRepo.find({
       where: { team_id },
       relations: ["role", "team"],
     });
-  
+
     return members.map(emp => ({
       employee_id: emp.employee_id,
       name: emp.name,

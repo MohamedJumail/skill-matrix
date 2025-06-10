@@ -120,6 +120,46 @@ const assessmentService = {
 
     return results;
   },
+  submitLeadRatings: async ({ leadId, assessment_id, employee_id, lead_comments, ratings }) => {
+    const assessmentRepo = AppDataSource.getRepository(Assessment);
+    const skillMatrixRepo = AppDataSource.getRepository(SkillMatrix);
+    const teamRepo = AppDataSource.getRepository(Team);
+  
+    const team = await teamRepo.findOne({
+      where: { lead_id: leadId },
+      relations: ['employees'],
+    });
+  
+    const isTeamMember = team?.employees.some(e => e.employee_id === employee_id);
+    if (!isTeamMember) {
+      throw new Error("Employee not under your team");
+    }
+  
+    const assessment = await assessmentRepo.findOneBy({ assessment_id, employee_id });
+    if (!assessment) {
+      throw new Error("Assessment not found");
+    }
+  
+    assessment.lead_comments = lead_comments;
+    await assessmentRepo.save(assessment);
+  
+    let updated = 0;
+    for (const { skill_id, lead_rating } of ratings) {
+      const skillEntry = await skillMatrixRepo.findOneBy({
+        assessment_id,
+        employee_id,
+        skill_id,
+      });
+  
+      if (skillEntry) {
+        skillEntry.lead_rating = lead_rating;
+        await skillMatrixRepo.save(skillEntry);
+        updated++;
+      }
+    }
+  
+    return { updated };
+  },  
 };
 
 export default assessmentService;
