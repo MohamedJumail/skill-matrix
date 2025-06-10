@@ -72,6 +72,40 @@ const assessmentController = {
       return Boom.internal(err.message);
     }
   },
+  getHRPendingAssessments: async (request, h) => {
+    try {
+      const hrId = request.pre.auth.id;
+      const data = await assessmentService.getHRPendingAssessments(hrId);
+      return h.response({ pendingAssessments: data }).code(200);
+    } catch (err) {
+      console.error("getHRPendingAssessments error:", err);
+      return Boom.internal("Failed to fetch HR's pending assessments");
+    }
+  },
+  approveAssessmentByHR: async (request, h) => {
+    try {
+      const hrId = request.pre.auth.id;
+      console.log(hrId);
+      const { assessment_id, employee_id, hr_comments, hr_approve } = request.payload;
+
+      if (!assessment_id || employee_id === undefined || hr_approve === undefined) {
+        return Boom.badRequest("Assessment ID, Employee ID, and HR approval status are required.");
+      }
+
+      const result = await assessmentService.approveAssessmentByHR({
+        hrId,
+        assessment_id,
+        employee_id,
+        hr_comments,
+        hr_approve,
+      });
+
+      return h.response({ message: "Assessment status updated by HR successfully", result }).code(200);
+    } catch (err) {
+      console.error("approveAssessmentByHR error:", err);
+      return Boom.internal(err.message);
+    }
+  },
 };
 
 export default assessmentController;

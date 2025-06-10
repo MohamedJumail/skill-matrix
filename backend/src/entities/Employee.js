@@ -37,6 +37,10 @@ export const Employee = new EntitySchema({
       type: 'int',
       nullable: false,
     },
+    hr_id: { // New column for HR employee ID
+      type: 'int',
+      nullable: true, // Assuming an employee might not always have a designated HR person
+    },
     is_active: {
       type: 'boolean',
       default: true,
@@ -64,6 +68,18 @@ export const Employee = new EntitySchema({
       target: 'Designation',
       joinColumn: { name: 'designation_id' },
       inverseSide: 'employees',
+    },
+    hr: { 
+      type: 'many-to-one',
+      target: 'Employee', 
+      joinColumn: { name: 'hr_id' },
+      inverseSide: 'managedEmployees', 
+      nullable: true,
+    },
+    managedEmployees: { 
+      type: 'one-to-many',
+      target: 'Employee',
+      inverseSide: 'hr',
     },
     ledTeams: {
       type: 'one-to-many',

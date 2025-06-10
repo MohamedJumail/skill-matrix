@@ -33,5 +33,21 @@ export default [
       pre: [verifyToken, roleCheck(['Lead'])],
       handler: assessmentController.submitLeadRating,
     },
+  },
+  {
+    method: "GET",
+    path: "/api/hr/pending-assessments", 
+    options: {
+      pre: [verifyToken, roleCheck(["HR"])], 
+      handler: assessmentController.getHRPendingAssessments,
+    },
   },  
+  {
+    method: "POST",
+    path: "/api/hr/approve-assessment", 
+    options: {
+      pre: [verifyToken, roleCheck(["HR"])], 
+      handler: assessmentController.approveAssessmentByHR,
+    },
+  },
 ];
