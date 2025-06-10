@@ -5,6 +5,7 @@ import Hapi from "@hapi/hapi";
 import { AppDataSource } from "./src/config/database.js";
 import authRoutes from './src/routes/authRoutes.js';
 import hrInitiationRoutes from './src/routes/hrInitiationRoutes.js';
+import assessmentRoutes from './src/routes/assessmentRoutes.js';
 
 const init = async () => {
   const server = Hapi.server({
@@ -14,6 +15,7 @@ const init = async () => {
 
   server.route(authRoutes);
   server.route(hrInitiationRoutes);
+  server.route(assessmentRoutes);
 
   try {
     await AppDataSource.initialize();
