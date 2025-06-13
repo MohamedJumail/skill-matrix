@@ -14,13 +14,14 @@ const authService = {
     role_id,
     designation_id,
     categories,
+    hr_id, // 👈 add this
   }) => {
     const employeeRepo = AppDataSource.getRepository(Employee);
-    const categoryAssocRepo = AppDataSource.getRepository(
-      EmployeeCategoryAssociation
-    );
+    const categoryAssocRepo = AppDataSource.getRepository(EmployeeCategoryAssociation);
+  
     const existingUser = await employeeRepo.findOne({ where: { email } });
     if (existingUser) throw new Error("Email already registered");
+  
     const newEmployee = employeeRepo.create({
       employee_name,
       email,
@@ -28,17 +29,22 @@ const authService = {
       team_id,
       role_id,
       designation_id,
+      hr_id, 
       is_active: true,
     });
+  
     const savedEmployee = await employeeRepo.save(newEmployee);
+  
+    // Validate categories
     if (!Array.isArray(categories) || categories.length === 0) {
       throw new Error("At least one category must be assigned to the employee");
     }
-
+  
     const primaryCount = categories.filter((cat) => cat.is_primary).length;
     if (primaryCount !== 1) {
       throw new Error("Exactly one category must be marked as primary");
     }
+  
     const categoryAssociations = categories.map((cat) =>
       categoryAssocRepo.create({
         employee_id: savedEmployee.employee_id,
@@ -46,11 +52,11 @@ const authService = {
         is_primary: cat.is_primary,
       })
     );
-
+  
     await categoryAssocRepo.save(categoryAssociations);
-
+  
     return savedEmployee;
-  },
+  },  
   login: async ({ email, password }) => {
     const employeeRepo = AppDataSource.getRepository(Employee);
     const employee = await employeeRepo.findOne({
@@ -106,47 +112,68 @@ const authService = {
   getAllEmployees: async (user) => {
     const employeeRepo = AppDataSource.getRepository(Employee);
     const teamRepo = AppDataSource.getRepository(Team);
-
+  
+    const baseRelations = [
+      "role",
+      "designation",
+      "team",
+      "employeeCategoryAssociations",
+      "employeeCategoryAssociations.category",
+    ];
+  
+    const baseSelect = {
+      employee_id: true,
+      employee_name: true,
+      email: true,
+      role: { role_name: true },
+      designation: { designation_name: true },
+      team: { team_name: true },
+    };
+  
     // ✅ HR can view everyone
     if (user.role.role_name === "HR") {
-      return await employeeRepo.find({
-        relations: ["role", "designation", "team"],
-        select: {
-          employee_id: true,
-          employee_name: true,
-          email: true,
-          role: { role_name: true },
-          designation: { designation_name: true },
-          team: { team_name: true },
-        },
+      const rawEmployees = await employeeRepo.find({
+        relations: baseRelations,
+        select: baseSelect,
       });
+  
+      return rawEmployees.map(emp => ({
+        ...emp,
+        categories: emp.employeeCategoryAssociations.map(catAssoc => ({
+          category_id: catAssoc.category.category_id,
+          category_name: catAssoc.category.category_name,
+          is_primary: catAssoc.is_primary,
+        })),
+      }));
     }
-
+  
+    // ✅ Leads can view their own team (excluding themselves)
     if (user.role.role_name === "Lead") {
       const team = await teamRepo.findOne({ where: { lead_id: user.id } });
-
-      if (!team) {
-        throw new Error("You are not assigned as a lead to any team");
-      }
-
-      return await employeeRepo.find({
+  
+      if (!team) throw new Error("You are not assigned as a lead to any team");
+  
+      const rawEmployees = await employeeRepo.find({
         where: {
           team_id: team.team_id,
           employee_id: Not(user.id),
         },
-        relations: ["role", "designation", "team"],
-        select: {
-          employee_id: true,
-          employee_name: true,
-          email: true,
-          role: { role_name: true },
-          designation: { designation_name: true },
-          team: { team_name: true },
-        },
+        relations: baseRelations,
+        select: baseSelect,
       });
+  
+      return rawEmployees.map(emp => ({
+        ...emp,
+        categories: emp.employeeCategoryAssociations.map(catAssoc => ({
+          category_id: catAssoc.category.category_id,
+          category_name: catAssoc.category.category_name,
+          is_primary: catAssoc.is_primary,
+        })),
+      }));
     }
+  
     throw new Error("Access denied");
-  },
+  },  
 };
 
 export default authService;

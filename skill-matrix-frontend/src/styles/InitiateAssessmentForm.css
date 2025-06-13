@@ -1,0 +1,435 @@
+:root {
+    --bg-light: #FFFFFF;
+    --text-dark: #2C2C2C;
+    --text-medium: #555555;
+    --primary-yellow: #FFD700;
+    --accent-yellow: #FFA500;
+    --light-yellow-bg: #FFFBE6;
+    --border-light: #E0E0E0;
+    --shadow-soft: rgba(0, 0, 0, 0.06);
+    --shadow-strong: rgba(0, 0, 0, 0.12);
+    --error-color: #D32F2F;
+    --success-color: #388E3C;
+    --font-primary: 'Inter', sans-serif;
+    --font-heading: 'Roboto', sans-serif;
+}
+
+
+
+.initiate-assessment-container {
+    background-color: var(--light-yellow-bg);
+    padding: 1.5rem; /* Further reduced padding */
+    border-radius: 12px;
+    max-width: 850px; /* Adjusted max-width */
+    margin: 1.5rem auto; /* Reduced margin */
+    box-shadow: 0 8px 20px var(--shadow-strong); /* Softer shadow */
+    font-family: var(--font-primary);
+    border: 1px solid var(--primary-yellow);
+    position: relative;
+    overflow-y: hidden; /* Explicitly hide vertical overflow on the container */
+    overflow-x: hidden; /* Explicitly hide horizontal overflow on the container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-title {
+    text-align: center;
+    color: var(--text-dark);
+    font-size: 2rem; /* Slightly smaller title */
+    font-family: var(--font-heading);
+    margin-bottom: 1.5rem; /* Reduced margin */
+    letter-spacing: -0.03em; /* Tighter letter-spacing */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.form-message {
+    padding: 0.7rem 1rem; /* Further reduced padding */
+    border-radius: 6px;
+    margin-bottom: 1rem; /* Reduced margin */
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 7px; /* Reduced gap */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.07); /* Lighter shadow */
+    width: 100%;
+}
+
+.error-message {
+    background-color: #FFEBEE;
+    color: var(--error-color);
+    border: 1px solid var(--error-color);
+}
+
+.success-message {
+    background-color: #E8F5E9;
+    color: var(--success-color);
+    border: 1px solid var(--success-color);
+}
+
+.message-icon {
+    font-size: 1em; /* Smaller icon */
+}
+
+.initiate-assessment-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.5rem; /* Reduced gap between items */
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.year-wheel-container,
+.quarter-segment-container {
+    flex: 1;
+    min-width: 320px; /* Reduced min-width to allow more horizontal space */
+    padding: 0.8rem; /* Reduced padding */
+    border: 1px solid var(--primary-yellow);
+    border-radius: 10px;
+    background-color: var(--bg-light);
+    box-shadow: 0 4px 12px var(--shadow-soft); /* Softer individual shadows */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px; /* Set a specific min-height to balance sections */
+}
+
+.selector-label {
+    display: block;
+    font-size: 1rem; /* Smaller label */
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.8rem; /* Reduced margin */
+    text-align: center;
+    background-color: var(--primary-yellow);
+    padding: 0.4rem; /* Reduced padding */
+    border-radius: 6px; /* Slightly less rounded */
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.highlight-text {
+    color: var(--accent-yellow);
+    font-weight: 700;
+    font-size: 1em; /* Adjusted font size */
+}
+
+.year-wheel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem; /* Reduced gap */
+    margin-bottom: 0.8rem; /* Reduced margin */
+}
+
+.wheel-nav-btn {
+    background-color: var(--primary-yellow);
+    color: var(--text-dark);
+    border: none;
+    border-radius: 50%;
+    width: 38px; /* Slightly smaller size */
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em; /* Smaller icon */
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(255, 215, 0, 0.3); /* Lighter shadow */
+    transition: all 0.2s ease;
+}
+
+.wheel-nav-btn:hover {
+    background-color: var(--accent-yellow);
+    box-shadow: 0 3px 8px rgba(255, 165, 0, 0.4);
+    transform: translateY(-1px);
+}
+
+.year-display-area {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem; /* Reduced gap */
+    background-color: var(--bg-light);
+    border: 1px solid var(--primary-yellow);
+    border-radius: 7px; /* Less rounded */
+    padding: 0.5rem 0.8rem; /* Reduced padding */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.07); /* Lighter shadow */
+    min-width: 140px; /* Reduced min-width */
+    justify-content: center;
+}
+
+.calendar-icon {
+    color: var(--primary-yellow);
+    font-size: 1.1rem; /* Smaller icon */
+}
+
+.selected-year-text {
+    font-size: 1.6rem; /* Smaller font */
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.year-current-selection {
+    font-size: 0.9rem; /* Smaller font */
+    color: var(--text-medium);
+    margin-top: 0.4rem; /* Reduced margin */
+}
+
+.quarter-segments-wrapper {
+    display: flex;
+    gap: 0.2rem; /* Reduced gap */
+    background-color: var(--border-light);
+    border-radius: 7px; /* Less rounded */
+    padding: 0.3rem; /* Reduced padding */
+    margin-bottom: 0.8rem; /* Reduced margin */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.07); /* Lighter inset shadow */
+}
+
+.quarter-segment {
+    flex: 1;
+    background-color: var(--bg-light);
+    border-radius: 5px; /* Less rounded */
+    padding: 0.5rem 0.3rem; /* Reduced padding */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px; /* Reduced min-height */
+    border: 1px solid transparent;
+}
+
+.quarter-segment:hover {
+    background-color: var(--light-yellow-bg);
+    border-color: var(--primary-yellow);
+    transform: translateY(-1px);
+}
+
+.quarter-segment.active {
+    background-color: var(--primary-yellow);
+    color: var(--text-dark);
+    border-color: var(--accent-yellow);
+    box-shadow: 0 2px 7px rgba(255, 215, 0, 0.3); /* Lighter shadow */
+    transform: translateY(0px);
+}
+
+.quarter-segment-label {
+    font-size: 1.4rem; /* Smaller */
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.quarter-segment-period {
+    font-size: 0.75rem; /* Smaller */
+    color: var(--text-medium);
+    font-weight: 500;
+}
+
+.quarter-segment.active .quarter-segment-label,
+.quarter-segment.active .quarter-segment-period {
+    color: var(--text-dark);
+}
+
+.quarter-current-selection {
+    font-size: 0.9rem; /* Smaller font */
+    color: var(--text-medium);
+    margin-top: 0.4rem; /* Reduced margin */
+}
+
+.submit-assessment-btn {
+    padding: 0.9rem 2rem; /* Reduced padding */
+    background-color: var(--primary-yellow);
+    color: var(--text-dark);
+    border: none;
+    border-radius: 7px; /* Less rounded */
+    font-size: 1rem; /* Smaller font */
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 12px rgba(255, 215, 0, 0.3); /* Lighter shadow */
+    display: block;
+    margin: 2rem auto 0; /* Reduced margin */
+    width: fit-content;
+}
+
+.submit-assessment-btn:hover {
+    background-color: var(--accent-yellow);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(255, 165, 0, 0.4);
+}
+
+.submit-assessment-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(255, 215, 0, 0.2);
+}
+
+.submit-assessment-btn:disabled {
+    background-color: #EAEAEA;
+    color: #B0B0B0;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+/* Media Queries for Responsiveness */
+@media (min-width: 769px) {
+    .initiate-assessment-form {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+
+    .year-wheel-container,
+    .quarter-segment-container {
+        flex: 1;
+        max-width: calc(50% - 0.75rem); /* Adjusted max-width for tighter gap */
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .initiate-assessment-container {
+        padding: 1.2rem;
+        margin: 1.2rem auto;
+    }
+
+    .form-title {
+        font-size: 1.6rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .initiate-assessment-form {
+        flex-direction: column;
+        gap: 1.5rem; /* Reduced gap */
+    }
+
+    .selector-label {
+        font-size: 0.9rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .year-wheel-controls {
+        gap: 0.8rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .wheel-nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    .year-display-area {
+        padding: 0.4rem 0.6rem;
+        min-width: 120px;
+    }
+
+    .calendar-icon {
+        font-size: 1rem;
+    }
+
+    .selected-year-text {
+        font-size: 1.4rem;
+    }
+
+    .year-current-selection,
+    .quarter-current-selection {
+        font-size: 0.8rem;
+    }
+
+    .quarter-segments-wrapper {
+        gap: 0.15rem; /* Very tight gap */
+        padding: 0.25rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .quarter-segment {
+        padding: 0.4rem 0.2rem;
+        min-height: 55px;
+    }
+
+    .quarter-segment-label {
+        font-size: 1.1rem;
+    }
+
+    .quarter-segment-period {
+        font-size: 0.65rem;
+    }
+
+    .submit-assessment-btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+        margin-top: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .initiate-assessment-container {
+        padding: 0.8rem;
+        margin: 0.8rem auto;
+    }
+
+    .form-title {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .selector-label {
+        font-size: 0.8rem;
+    }
+
+    .year-wheel-controls {
+        gap: 0.6rem;
+    }
+
+    .wheel-nav-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+
+    .year-display-area {
+        padding: 0.3rem 0.5rem;
+        min-width: 100px;
+    }
+
+    .calendar-icon {
+        font-size: 0.9rem;
+    }
+
+    .selected-year-text {
+        font-size: 1.1rem;
+    }
+
+    .year-current-selection,
+    .quarter-current-selection {
+        font-size: 0.7rem;
+    }
+
+    .quarter-segments-wrapper {
+        max-width: 250px; /* Adjust to fit two columns comfortably */
+    }
+
+    .quarter-segment {
+        min-height: 45px;
+        padding: 0.3rem 0.15rem;
+    }
+
+    .quarter-segment-label {
+        font-size: 0.9rem;
+    }
+
+    .quarter-segment-period {
+        font-size: 0.55rem;
+    }
+
+    .submit-assessment-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+        margin-top: 0.8rem;
+    }
+}

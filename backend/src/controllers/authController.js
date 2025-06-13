@@ -12,6 +12,7 @@ const authController = {
         role_id,
         designation_id,
         categories,
+        hr_id
       } = request.payload;
 
       const employee = await authService.register({
@@ -21,7 +22,8 @@ const authController = {
         team_id,
         role_id,
         designation_id,
-        categories, // 👈 Pass to service
+        categories,
+        hr_id // 👈 Pass to service
       });
 
       return h
@@ -85,7 +87,7 @@ const authController = {
       const employees = await authService.getAllEmployees(user);
       return h.response(employees).code(200);
     } catch (err) {
-      return Boom.forbidden(err.message); // 403 for access control
+      return Boom.forbidden(err.message);
     }
   },
 };

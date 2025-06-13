@@ -7,6 +7,8 @@ import authRoutes from './src/routes/authRoutes.js';
 import hrInitiationRoutes from './src/routes/hrInitiationRoutes.js';
 import assessmentRoutes from './src/routes/assessmentRoutes.js';
 import skillMatrixRoutes from "./src/routes/skillMatrixRoutes.js";
+import lookupRoutes from "./src/routes/lookupRoutes.js";
+// import skillRoutes from "./src/routes/skillRoutes.js";
 
 const init = async () => {
   const server = Hapi.server({
@@ -25,6 +27,7 @@ const init = async () => {
   server.route(hrInitiationRoutes);
   server.route(assessmentRoutes);
   server.route(skillMatrixRoutes);
+  server.route(lookupRoutes);
   try {
     await AppDataSource.initialize();
     console.log("Data Source initialized");

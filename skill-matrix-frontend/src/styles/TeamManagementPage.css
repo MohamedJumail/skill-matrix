@@ -1,0 +1,288 @@
+:root {
+    --bg-main: hsl(47, 100%, 95%);
+    --bg-elements: hsl(47, 100%, 92%);
+    --text-primary: #212121;
+    --text-secondary: #5a5a5a;
+    --primary-yellow: #FFD700;
+    --accent-yellow: #FFA500;
+    --border-subtle: hsl(47, 100%, 80%);
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --shadow-medium: rgba(0, 0, 0, 0.1);
+    --shadow-strong: rgba(0, 0, 0, 0.15); /* Slightly stronger for cards */
+    --error-color: #D32F2F;
+    --font-primary: 'Inter', sans-serif;
+    --font-heading: 'Roboto', sans-serif;
+}
+
+.team-container {
+    background-color: var(--bg-main);
+    padding: 2.5rem;
+    padding-top: 0; /* Align header bar to top edge */
+    border-radius: 12px;
+    max-width: 1200px; /* Wider container for more cards per row */
+    margin: 2.5rem auto;
+    color: var(--text-primary);
+    box-shadow: 0 10px 30px var(--shadow-medium);
+    font-family: var(--font-primary);
+    border: 1px solid var(--primary-yellow);
+    position: relative;
+    overflow: hidden;
+    min-height: 70vh; /* Ensure some height for content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loading-state, .error-state {
+    min-height: 300px; /* Give space for messages */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+.error-state .error-message {
+    background-color: var(--error-bg);
+    color: var(--error-color);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--error-color);
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.main-heading-bar {
+    background-color: var(--primary-yellow);
+    color: var(--text-primary);
+    padding: 1rem 0;
+    margin: 0 -2.5rem 2rem; /* Negative margin to span full width */
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-family: var(--font-heading);
+    width: calc(100% + 5rem); /* Adjust width to perfectly fit container + negative margins */
+}
+
+.main-heading-bar h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 2.2rem;
+    letter-spacing: -0.04em;
+    text-shadow: none;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Flexible grid for cards */
+    gap: 1.5rem;
+    width: 100%; /* Take full width within container */
+    padding-bottom: 1.5rem; /* Space at the bottom */
+}
+
+.team-card {
+    background-color: var(--bg-elements);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px var(--shadow-light);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+.team-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px; /* Thicker top border */
+    background-color: var(--primary-yellow);
+    transition: background-color 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-8px); /* Lift card on hover */
+    box-shadow: 0 15px 30px var(--shadow-medium); /* Stronger shadow on hover */
+    border-color: var(--primary-yellow); /* Highlight border on hover */
+}
+
+.team-card:hover::before {
+    background-color: var(--accent-yellow); /* Change top border color on hover */
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.team-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgb(59, 77, 7);
+    margin: 0;
+    flex-grow: 1; /* Allow name to take space */
+    text-align: left;
+}
+
+.employee-count-bubble {
+    background-color: var(--primary-yellow);
+    color: var(--text-primary); /* Dark text on yellow bubble */
+    border-radius: 20px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 6px rgba(255, 215, 0, 0.3);
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.count-icon {
+    font-size: 1.1em;
+    color: var(--text-primary); /* Ensure icon is dark */
+}
+
+.card-body {
+    width: 100%;
+}
+
+.team-lead-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    padding-top: 0.8rem;
+    border-top: 1px dashed var(--border-subtle);
+}
+
+.lead-icon {
+    color: black;
+    font-size: 1.1em;
+}
+
+.lead-text {
+    font-weight: 500;
+}
+
+.no-teams-message {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    width: 100%;
+    padding: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .team-container {
+        padding: 2rem;
+        padding-top: 0;
+        margin: 2rem auto;
+        max-width: 95%;
+        border-radius: 30px;
+    }
+
+    .main-heading-bar {
+        margin: 0 -2rem 1.5rem;
+        padding: 0.8rem 0;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        width: calc(100% + 4rem);
+    }
+
+    .main-heading-bar h2 {
+        font-size: 2rem;
+    }
+
+    .team-grid {
+        gap: 1.2rem;
+    }
+
+    .team-card {
+        padding: 1.2rem;
+    }
+
+    .team-name {
+        font-size: 1.3rem;
+        text-shadow:
+            -0.4px -0.4px 0 #000,
+            0.4px -0.4px 0 #000,
+            -0.4px 0.4px 0 #000,
+            0.4px 0.4px 0 #000;
+    }
+
+    .employee-count-bubble {
+        padding: 0.3rem 0.7rem;
+        font-size: 0.85rem;
+    }
+
+    .team-lead-info {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .team-container {
+        padding: 1.5rem;
+        padding-top: 0;
+        margin: 1.5rem auto;
+        border-radius: 20px;
+    }
+
+    .main-heading-bar {
+        margin: 0 -1.5rem 1.2rem;
+        padding: 0.7rem 0;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        width: calc(100% + 3rem);
+    }
+
+    .main-heading-bar h2 {
+        font-size: 1.8rem;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr; /* Stack cards on very small screens */
+        gap: 1rem;
+    }
+
+    .team-card {
+        padding: 1rem;
+    }
+
+    .team-name {
+        font-size: 1.2rem;
+        text-shadow:
+            -0.3px -0.3px 0 #000,
+            0.3px -0.3px 0 #000,
+            -0.3px 0.3px 0 #000,
+            0.3px 0.3px 0 #000;
+    }
+
+    .employee-count-bubble {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .count-icon {
+        font-size: 1em;
+    }
+
+    .team-lead-info {
+        font-size: 0.85rem;
+        padding-top: 0.6rem;
+    }
+}

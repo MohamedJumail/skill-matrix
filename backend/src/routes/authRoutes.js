@@ -36,7 +36,7 @@ export default [
     path: '/api/employees',
     handler: authController.getAllEmployees,
     options: {
-      pre: [verifyToken], // token is required
+      pre: [verifyToken], 
     },
   },
 ];

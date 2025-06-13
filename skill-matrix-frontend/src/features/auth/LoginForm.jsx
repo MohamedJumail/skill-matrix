@@ -1,4 +1,3 @@
-// src/pages/LoginPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -6,10 +5,10 @@ import { loginStart, loginSuccess, loginFailure } from './authSlice';
 import api from '../../api';
 import '../../styles/LoginForm.css';
 
-const LoginPage = () => {
+const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token, user, loading, error } = useSelector((state) => state.auth);
+  const { token, loading, error } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({ email: '', password: '' });
 
@@ -24,56 +23,41 @@ const LoginPage = () => {
       const response = await api.post('/login', formData);
       dispatch(loginSuccess(response.data));
     } catch (err) {
-      dispatch(loginFailure(err.response?.data?.message || 'Login failed. Please check your credentials.'));
+      dispatch(loginFailure(err.response?.data?.message || 'Login failed'));
     }
   };
 
   useEffect(() => {
-    if (token && user) {
-      const role = user.role.toLowerCase();
-      switch (role) {
-        case 'employee':
-          navigate('/employee/dashboard');
-          break;
-        case 'lead':
-          navigate('/lead/dashboard');
-          break;
-        case 'hr':
-          navigate('/hr/dashboard');
-          break;
-        default:
-          navigate('/');
-      }
+    if (token) {
+      navigate('/dashboard');
     }
-  }, [token, user, navigate]);
+  }, [token, navigate]);
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <h2 className="login-title">Welcome to Skill Matrix</h2>
+    <div className="login-container">
+      <div className="login-box">
+        <h2 className="login-heading">Welcome Back</h2>
         {error && <p className="login-error">{error}</p>}
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="form-control">
+            <label>Email</label>
             <input
               type="email"
-              id="email"
               name="email"
-              placeholder="your.email@example.com"
               value={formData.email}
               onChange={handleChange}
+              placeholder="Enter your email"
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+          <div className="form-control">
+            <label>Password</label>
             <input
               type="password"
-              id="password"
               name="password"
-              placeholder="••••••••"
               value={formData.password}
               onChange={handleChange}
+              placeholder="Enter your password"
               required
             />
           </div>
@@ -86,4 +70,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default LoginForm;
