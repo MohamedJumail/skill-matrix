@@ -12,7 +12,14 @@ const init = async () => {
   const server = Hapi.server({
     port: process.env.PORT || 3000,
     host: process.env.SERVER_HOST || "localhost",
+    routes: {
+      cors: {
+        origin: ['*'],
+        credentials: true
+      }
+    }
   });
+  
 
   server.route(authRoutes);
   server.route(hrInitiationRoutes);

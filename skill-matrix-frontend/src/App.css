@@ -1,0 +1,23 @@
+:root {
+  --white: #ffffff;
+  --yellow: #facc15;
+  --yellow-dark: #eab308;
+  --yellow-light: #fef9c3;
+  --gray-light: #f9fafb;
+  --gray-border: #e5e7eb;
+  --text: #1f2937;
+  --text-muted: #6b7280;
+  --shadow: rgba(0, 0, 0, 0.05);
+  --font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+/* ----------- BASE STYLES ----------- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--gray-light);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 16px;
+}
