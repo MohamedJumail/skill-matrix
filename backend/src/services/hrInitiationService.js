@@ -134,6 +134,7 @@ const hrInititaionService = {
     });
 
     return members.map(emp => ({
+      employee_name : emp.employee_name,
       employee_id: emp.employee_id,
       name: emp.name,
       email: emp.email,

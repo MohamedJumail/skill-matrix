@@ -23,8 +23,7 @@ const CreateEmployeeForm = ({ onSuccess }) => {
   const [hrList, setHrList] = useState([]);
   const [error, setError] = useState('');
   const [primaryCategory, setPrimaryCategory] = useState(null);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // Added for success message
-
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); 
   useEffect(() => {
     const fetchData = async () => {
       try {

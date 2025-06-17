@@ -1,0 +1,294 @@
+/* src/styles/LeadTeamAssessments.css */
+
+/* Color Variables for consistency */
+:root {
+    --bg-light: hsl(47, 100%, 92%); 
+    --bg-card: hsl(47, 100%, 92%); 
+    --primary-yellow: #FFD700; 
+    --accent-yellow: #FFBF00; 
+    --subtle-yellow-bg: transparent; 
+    --text-dark: #2c2c2c; 
+    --text-medium: #555555; 
+    --border-dark: #cccccc; 
+    --header-border: #aaaaaa; 
+    --slider-track-color: #333333; 
+    --status-success-bg: #e6ffe6; 
+    --status-success-text: #28a745; 
+    --status-error-bg: #ffe6e6; 
+    --status-error-text: #dc3545; 
+    --status-pending-bg: #fff8e6; 
+    --status-pending-text: #ffc107; 
+    --shadow-subtle: rgba(0, 0, 0, 0.08); 
+    --shadow-medium: rgba(0, 0, 0, 0.15); 
+    --font-primary: 'Inter', sans-serif; 
+    --font-heading: 'Roboto', sans-serif; 
+}
+
+/* Base Body Styles */
+body {
+    overflow: unset; 
+    margin: 0; 
+    padding: 0; 
+}
+
+/* --- Blur Effect for Background Content --- */
+.blurred-content {
+    filter: blur(8px); 
+    pointer-events: none; /* Disable all mouse events on background content */
+    transition: filter 0.3s ease-out; /* Keep transition for smooth effect */
+}
+
+/* --- Main Container for Assessments Page --- */
+.lead-assessments-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--bg-light);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px var(--shadow-subtle);
+    font-family: var(--font-primary);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border: 1px solid var(--primary-yellow);
+    position: relative; 
+    z-index: 1; 
+}
+
+/* --- Loading and Error States --- */
+.loading-container, .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px; 
+    text-align: center;
+    color: var(--text-medium);
+}
+
+.loading-spinner {
+    font-size: 3rem;
+    color: var(--primary-yellow);
+    animation: spin 1s linear infinite;
+    margin-bottom: 0.8rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- Header Section --- */
+.assessments-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: var(--primary-yellow);
+    border-radius: 12px;
+}
+
+.assessments-header h2 {
+    color: var(--text-dark);
+    font-size: 2.2rem;
+    margin-bottom: 0.6rem;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.08);
+}
+
+/* --- Status Messages (Success/Error) --- */
+.status-message {
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 1px 8px var(--shadow-subtle);
+}
+
+.status-message.error {
+    background-color: var(--status-error-bg);
+    color: var(--status-error-text);
+    border: 1px solid var(--status-error-text);
+}
+
+.status-message.success {
+    background-color: var(--status-success-bg);
+    color: var(--status-success-text);
+    border: 1px solid var(--status-success-text);
+}
+
+.status-message svg { 
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+/* --- No Assessments Message --- */
+.no-assessments {
+    text-align: center;
+    padding: 2.5rem;
+    color: var(--text-medium);
+    font-style: italic;
+    border: 1px dashed var(--border-dark);
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    background-color: rgba(255, 215, 0, 0.05); 
+}
+
+/* --- Assessment Table (Enhanced Styles) --- */
+.assessment-table-wrapper {
+    overflow-x: auto; 
+    background-color: var(--bg-card);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+    border: 1px solid var(--primary-yellow); /* Yellow border for the wrapper */
+}
+
+.assessment-table {
+    width: 100%;
+    border-collapse: separate; /* Use separate for border-radius on cells/rows */
+    border-spacing: 0; /* Remove space between cell borders */
+    min-width: 650px; /* Slightly increased min-width for better display */
+}
+
+.assessment-table th, .assessment-table td {
+    padding: 1.1rem 1.4rem; /* Increased padding */
+    text-align: left;
+    /* Removed border-bottom here, will handle with box-shadow on rows */
+}
+
+.assessment-table th {
+    background-color: var(--text-dark); /* Dark background for header */
+    color: var(--primary-yellow); /* Yellow text for header */
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.95rem; /* Slightly larger font */
+    letter-spacing: 0.8px; /* More spacing for header text */
+    position: sticky; /* Keep header visible on scroll */
+    top: 0;
+    z-index: 2; /* Ensure header is above rows */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for header */
+}
+
+/* Rounded corners for header cells */
+.assessment-table th:first-child {
+    border-top-left-radius: 10px;
+}
+.assessment-table th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.assessment-table tbody tr {
+    background-color: var(--bg-card);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    border-bottom: 1px solid var(--border-dark); /* Add subtle border for separation */
+}
+
+/* Alternating row colors for better readability */
+.assessment-table tbody tr:nth-child(even) {
+    background-color: rgba(255, 215, 0, 0.03); /* Very subtle yellow tint for even rows */
+}
+
+.assessment-table tbody tr:last-child {
+    border-bottom: none; /* No border for the very last row */
+}
+
+.assessment-table tbody tr:hover {
+    background-color: rgba(255, 215, 0, 0.12); /* Slightly more prominent hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Subtle shadow on hover */
+    cursor: pointer; /* Indicate clickable rows (if they were) */
+}
+
+.assessment-table tbody tr:hover .review-button {
+    background-color: var(--accent-yellow); /* Make button stand out on row hover */
+    color: var(--text-dark);
+}
+
+.assessment-table td {
+    color: var(--text-dark); /* Darker text for content */
+    font-size: 1rem;
+}
+
+.assessment-table td:first-child {
+    font-weight: 600; /* Bold employee names */
+}
+
+/* Style for the Action column button (already good, just ensuring consistency) */
+.review-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.7rem 1.1rem; /* Slightly increased padding */
+    background-color: var(--text-dark);
+    color: var(--primary-yellow);
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for buttons */
+}
+
+.review-button:hover {
+    background-color: var(--accent-yellow); /* Use accent yellow for button hover */
+    color: var(--text-dark); /* Dark text on yellow background */
+    transform: translateY(-1px); /* More subtle lift */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Improved shadow */
+}
+
+.review-button svg {
+    font-size: 1.1rem;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .lead-assessments-container {
+        margin: 1rem auto;
+        padding: 1.2rem;
+        gap: 1rem;
+    }
+
+    .assessments-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .assessment-table th, .assessment-table td {
+        padding: 0.8rem;
+        font-size: 0.9rem; /* Smaller font for mobile */
+    }
+
+    .assessment-table {
+        min-width: 500px; /* Adjust min-width if table content can shrink */
+    }
+
+    .review-button {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .lead-assessments-container {
+        padding: 0.8rem;
+        margin: 0.8rem auto;
+    }
+
+    .assessments-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .assessment-table th, .assessment-table td {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.8rem; /* Even smaller font */
+    }
+
+    .review-button {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.7rem;
+    }
+}

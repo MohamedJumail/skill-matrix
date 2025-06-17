@@ -1,0 +1,428 @@
+:root {
+    --bg-main: hsl(47, 100%, 95%);
+    --bg-panel: hsl(47, 100%, 92%);
+    --text-primary: #212121;
+    --text-secondary: #5a5a5a;
+    --primary-yellow: #FFD700;
+    --accent-yellow: #FFA500;
+    --border-subtle: hsl(47, 100%, 80%);
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --shadow-medium: rgba(0, 0, 0, 0.1);
+    --shadow-strong: rgba(0, 0, 0, 0.15);
+    --error-bg: #FFEBEE;
+    --error-text: #D32F2F;
+    --font-primary: 'Inter', sans-serif;
+    --font-heading: 'Roboto', sans-serif;
+    --bg-black-element: #2C2C2C;
+    --bg-black-element-hover: #444444;
+}
+
+.skill-criteria-container {
+    background-color: rgba(219, 215, 215, 0.345);
+    padding: 2.5rem;
+    padding-top: 0;
+    border-radius: 12px;
+    max-width: 1400px;
+    margin: 2.5rem auto;
+    color: var(--text-primary);
+    box-shadow: 0 10px 30px var(--shadow-medium);
+    font-family: var(--font-primary);
+    border: 2px solid var(--primary-yellow);
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-heading-bar {
+    background-color: var(--primary-yellow);
+    color: var(--text-primary);
+    padding: 1rem 0;
+    margin: 0 -2.5rem 2rem;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-family: var(--font-heading);
+    width: calc(100% + 5rem);
+}
+
+.main-heading-bar h2 {
+    margin-left: 2rem;
+    color: var(--text-primary);
+    font-size: 2.2rem;
+    letter-spacing: -0.04em;
+    text-shadow: none;
+}
+
+.status-message {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    justify-content: center;
+    text-align: center;
+}
+
+.status-message.error-message {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border: 1px solid var(--error-text);
+}
+
+.loading-message, .no-data-message, .instruction-message {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    padding: 1rem;
+}
+
+.category-filter-dropdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 0 10px;
+}
+
+.filter-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.filter-dropdown {
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--primary-yellow);
+    border-radius: 8px;
+    background-color: var(--bg-black-element);
+    color: var(--primary-yellow);
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23FFD700" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1.2em;
+}
+
+.filter-dropdown:hover {
+    border-color: var(--accent-yellow);
+    background-color: var(--bg-black-element-hover);
+    color: var(--accent-yellow);
+}
+
+.filter-dropdown:focus {
+    border-color: var(--accent-yellow);
+    background-color: var(--bg-black-element);
+    color: var(--primary-yellow);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+}
+
+.content-panels {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    width: 100%;
+    min-height: 60vh;
+    align-items: flex-start;
+}
+
+.skill-selector-panel,
+.skill-levels-viewer-panel {
+    background-color: var(--bg-panel);
+    border: 2px solid var(--primary-yellow);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 75vh;
+}
+
+.skill-selector-panel {
+    flex: 0 0 250px;
+    max-width: 280px;
+}
+
+.skill-levels-viewer-panel {
+    flex: 1;
+    min-width: 0;
+}
+
+.panel-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--bg-black-element);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-yellow);
+    width: 80%;
+    margin-top: 0;
+}
+
+.skill-tags-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 50vh;
+    padding-right: 5px;
+    align-items: center;
+}
+
+.skill-tag {
+    background-color: var(--bg-black-element);
+    color: var(--primary-yellow);
+    border: 1px solid var(--primary-yellow);
+    border-radius: 20px;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 5px var(--shadow-light);
+    width: calc(100% - 10px);
+    text-align: center;
+}
+
+.skill-tag:hover {
+    background-color: var(--bg-black-element-hover);
+    border-color: var(--accent-yellow);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: var(--accent-yellow);
+}
+
+.skill-tag.selected {
+    background-color: var(--primary-yellow);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
+    font-weight: 700;
+}
+
+.level-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.2rem;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 54vh;
+    padding-right: 5px;
+    justify-items: center;
+    /* CHANGE START */
+    align-items: stretch; /* This makes all grid items in a row stretch to the height of the tallest item */
+    /* CHANGE END */
+}
+
+.level-card {
+    background-color: var(--bg-black-element);
+    border: 1px solid var(--primary-yellow);
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 3px 10px var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Still center items horizontally within the card */
+    text-align: center;
+    gap: 0.8rem;
+    transition: all 0.2s ease;
+    min-width: 280px;
+    max-width: 100%;
+    /* No fixed height here, let it stretch */
+}
+
+.level-card:hover {
+    background-color: var(--bg-black-element-hover);
+    border-color: var(--accent-yellow);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.level-number-bubble {
+    background-color: var(--primary-yellow);
+    color: var(--text-primary);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    gap: 5px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(255, 215, 0, 0.3);
+}
+
+.level-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+}
+
+.level-description {
+    font-size: 1rem;
+    color: var(--primary-yellow);
+    margin: 0;
+    text-align: center;
+    flex-grow: 1; /* This is crucial for content to fill available space */
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .skill-criteria-container {
+        padding: 2rem;
+        padding-top: 0;
+        margin: 2rem auto;
+        max-width: 95%;
+    }
+
+    .main-heading-bar {
+        margin: 0 -2rem 1.5rem;
+        padding: 0.8rem 0;
+        width: calc(100% + 4rem);
+    }
+
+    .main-heading-bar h2 {
+        font-size: 2rem;
+    }
+
+    .category-filter-dropdown-container {
+        padding: 0;
+    }
+
+    .filter-dropdown {
+        width: 100%;
+    }
+
+    .content-panels {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .skill-selector-panel,
+    .skill-levels-viewer-panel {
+        flex: 1 1 100%;
+        min-width: unset;
+        max-width: unset;
+        padding-top: 1.5rem;
+    }
+
+    .panel-title {
+        font-size: 1.4rem;
+        text-shadow:
+            -0.4px -0.4px 0 #000,
+            0.4px -0.4px 0 #000,
+            -0.4px 0.4px 0 #000,
+            0.4px 0.4px 0 #000;
+        margin-top: 0;
+    }
+
+    .skill-tags-list, .level-cards-grid {
+        max-height: 35vh;
+    }
+
+    .skill-tag {
+        padding: 0.5rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .level-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .level-number-bubble {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .level-icon {
+        font-size: 1.4rem;
+    }
+
+    .level-description {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .skill-criteria-container {
+        padding: 1.5rem;
+        padding-top: 0;
+        margin: 1.5rem auto;
+    }
+
+    .main-heading-bar {
+        margin: 0 -1.5rem 1.2rem;
+        padding: 0.7rem 0;
+        width: calc(100% + 3rem);
+    }
+
+    .main-heading-bar h2 {
+        font-size: 1.8rem;
+    }
+
+    .category-filter-dropdown-container {
+        padding: 0;
+    }
+
+    .filter-label {
+        font-size: 0.85rem;
+    }
+
+    .filter-dropdown {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .content-panels {
+        gap: 1rem;
+    }
+
+    .panel-title {
+        font-size: 1.2rem;
+        text-shadow:
+            -0.3px -0.3px 0 #000,
+            0.3px -0.3px 0 #000,
+            -0.3px 0.3px 0 #000,
+            0.3px 0.3px 0 #000;
+    }
+
+    .skill-tags-list, .level-cards-grid {
+        max-height: 30vh;
+    }
+
+    .skill-tag {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .level-number-bubble {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.75rem;
+    }
+
+    .level-icon {
+        font-size: 1.1rem;
+    }
+
+    .level-description {
+        font-size: 0.8rem;
+    }
+}

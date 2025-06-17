@@ -1,15 +1,18 @@
+// src/pages/TeamManagementPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
-import '../styles/TeamManagementPage.css'; // New CSS file for this page
+import '../styles/TeamManagementPage.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaUsers, FaUserTie } from 'react-icons/fa'; // Icons for team and lead
+import { FaUsers, FaUserTie } from 'react-icons/fa';
 
 const TeamManagementPage = () => {
   const { user } = useSelector((state) => state.auth);
   const [teams, setTeams] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user || user.role?.role_name !== 'HR') {
@@ -61,6 +64,7 @@ const TeamManagementPage = () => {
               <motion.div
                 key={team.team_id}
                 className="team-card"
+                onClick={() => navigate(`/team/${team.team_id}`)} 
                 initial={{ opacity: 0, y: 50, scale: 0.8 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}

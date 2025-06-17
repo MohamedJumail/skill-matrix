@@ -16,7 +16,6 @@ const skillMatrixService = {
         year,
         status: 3,        
         hr_approve: 1, 
-        is_active: true,
       },
       relations: ['employee'], // Load employee details for the name
     });

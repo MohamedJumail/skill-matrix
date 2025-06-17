@@ -1,0 +1,321 @@
+@import url('./ReviewModal.css');
+
+/* Global Container & Base Styles */
+.skill-matrix-container {
+    font-family: var(--font-primary);
+    padding: 2rem;
+    background-color: rgba(240, 255, 255, 0.55);
+    margin: 2.5rem auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px var(--shadow-medium);
+    border: 1px solid var(--primary-yellow);
+    color: var(--text-dark);
+    position: relative;
+}
+
+.skill-matrix-loading,
+.skill-matrix-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    font-size: 1.1em;
+    color: var(--text-medium);
+    gap: 8px;
+}
+
+.skill-matrix-error {
+    color: var(--status-error-text);
+}
+
+.skill-matrix-heading {
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 1.2rem;
+    font-size: 2.2em;
+    font-family: var(--font-heading);
+    padding-bottom: 0.6rem;
+    border-bottom: 3px solid var(--primary-yellow);
+}
+
+.skill-matrix-period {
+    text-align: center;
+    color: var(--text-medium);
+    font-size: 1em;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.skill-matrix-subheading {
+    color: var(--text-dark);
+    font-size: 1.4em;
+    font-family: var(--font-heading);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-dark);
+}
+
+.skill-matrix-subheading .icon-small {
+    color: var(--primary-yellow);
+    font-size: 0.9em;
+}
+
+/* --- Lead Ratings Visualization (Heat Map Table) --- */
+.skill-matrix-lead-ratings-viz {
+    margin-bottom: 2rem;
+    padding: 1.2rem;
+    background-color: var(--subtle-yellow-bg);
+    border-radius: 10px;
+    border: 1.5px solid var(--primary-yellow);
+    box-shadow: 0 3px 12px var(--shadow-subtle);
+}
+
+.skill-matrix-table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.skill-matrix-heatmap-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: max-content;
+}
+
+.skill-matrix-heatmap-table th,
+.skill-matrix-heatmap-table td {
+    padding: 0.4rem 0.4rem;
+    text-align: center;
+    border: 1px solid black;
+    box-sizing: border-box;
+    white-space: nowrap;
+    max-width: 20px;
+    height: 45px;
+}
+
+.heatmap-label-cell {
+    background-color: rgba(230, 230, 130, 0.153);
+    color: var(--text-dark);
+    font-weight: 700;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    font-size: 0.9em;
+}
+
+.heatmap-skill-header {
+    background-color: var(--bg-card);
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 0.85em;
+    border-bottom: 2px solid var(--primary-yellow);
+}
+
+.heatmap-rating-cell {
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+/* --- New Section: Skill Insights (Visualization & Progression) --- */
+.skill-matrix-insights-container {
+    background-color: #f8f8f8;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    margin-top: 30px;
+    margin-bottom: 2rem; /* Add consistent bottom margin */
+    border: 1.5px solid var(--primary-yellow); /* Consistency with other sections */
+}
+
+.skill-insights-flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.skill-insights-left,
+.skill-insights-right {
+    flex: 1;
+    min-width: 320px;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease-in-out;
+}
+
+.skill-insights-left:hover,
+.skill-insights-right:hover {
+    transform: translateY(-5px);
+}
+
+.skill-insights-left h4,
+.skill-insights-right h4 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}
+
+.skill-insights-right p {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    background-color: #fcfcfc;
+}
+
+/* --- Comments Section --- */
+.skill-matrix-comments-container {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.2rem;
+    background-color: var(--subtle-yellow-bg);
+    border-radius: 10px;
+    border: 1.5px solid var(--primary-yellow);
+    box-shadow: 0 3px 12px var(--shadow-subtle);
+}
+
+.comments-flex-wrapper {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.skill-matrix-comment-box {
+    background-color: var(--bg-card);
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-dark);
+    box-shadow: 0 2px 6px var(--shadow-subtle);
+    flex: 1;
+    min-width: 250px;
+}
+
+.comment-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.4rem;
+    font-size: 0.95em;
+}
+
+.comment-content {
+    color: var(--text-medium);
+    font-size: 0.9em;
+    line-height: 1.5;
+    padding-left: 8px;
+    border-left: 2px solid var(--accent-yellow);
+}
+
+/* Spinner & Animations */
+.spinner {
+    animation: spin 1s linear infinite;
+    color: var(--primary-yellow);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .skill-matrix-container {
+        padding: 1rem;
+        margin: 1rem auto;
+        max-width: 100%;
+    }
+
+    .skill-matrix-heading {
+        font-size: 1.8em;
+    }
+
+    .skill-matrix-period {
+        font-size: 0.9em;
+    }
+
+    .skill-matrix-subheading {
+        font-size: 1.2em;
+        margin-bottom: 1rem;
+    }
+
+    .skill-matrix-comments-container,
+    .skill-matrix-lead-ratings-viz,
+    .skill-matrix-insights-container { /* Include new section here */
+        padding: 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .heatmap-skill-header,
+    .heatmap-rating-cell,
+    .heatmap-label-cell {
+        padding: 0.5rem 0.6rem;
+        min-width: 60px;
+        height: 40px;
+        font-size: 0.8em;
+    }
+
+    .comments-flex-wrapper {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .skill-matrix-comment-box {
+        min-width: unset;
+        flex: unset;
+    }
+
+    .skill-insights-flex-wrapper { /* Ensure insights flex also stacks */
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skill-matrix-container {
+        padding: 0.8rem;
+        margin: 0.8rem auto;
+    }
+
+    .skill-matrix-heading {
+        font-size: 1.5em;
+        margin-bottom: 0.8rem;
+    }
+
+    .skill-matrix-period {
+        font-size: 0.8em;
+        margin-bottom: 1.5rem;
+    }
+
+    .skill-matrix-subheading {
+        font-size: 1em;
+        margin-bottom: 0.8rem;
+    }
+
+    .heatmap-skill-header,
+    .heatmap-rating-cell,
+    .heatmap-label-cell {
+        min-width: 50px;
+        font-size: 0.75em;
+    }
+
+    .skill-matrix-comment-box {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .comment-content {
+        font-size: 0.8em;
+    }
+}

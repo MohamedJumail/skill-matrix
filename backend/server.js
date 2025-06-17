@@ -8,6 +8,7 @@ import hrInitiationRoutes from './src/routes/hrInitiationRoutes.js';
 import assessmentRoutes from './src/routes/assessmentRoutes.js';
 import skillMatrixRoutes from "./src/routes/skillMatrixRoutes.js";
 import lookupRoutes from "./src/routes/lookupRoutes.js";
+import skillRoutes from "./src/routes/skillRoutes.js";
 // import skillRoutes from "./src/routes/skillRoutes.js";
 
 const init = async () => {
@@ -28,6 +29,7 @@ const init = async () => {
   server.route(assessmentRoutes);
   server.route(skillMatrixRoutes);
   server.route(lookupRoutes);
+  server.route(skillRoutes);
   try {
     await AppDataSource.initialize();
     console.log("Data Source initialized");

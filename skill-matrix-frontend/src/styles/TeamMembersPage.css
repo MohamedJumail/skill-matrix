@@ -1,0 +1,336 @@
+:root {
+    --bg-main: hsl(47, 100%, 95%); /* Light yellow background for the page container */
+    --bg-element: hsl(47, 100%, 92%); /* Slightly deeper yellow for internal elements */
+    --text-primary: #212121; /* Strong dark grey (almost black) for main text */
+    --text-secondary: #5a5a5a; /* Slightly lighter grey for secondary text */
+    --primary-yellow: #FFD700; /* Gold */
+    --accent-yellow: #FFA500; /* Orange-Gold */
+    --border-subtle: hsl(47, 100%, 75%); /* Soft yellow border */
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --shadow-medium: rgba(0, 0, 0, 0.1);
+    --shadow-strong: rgba(0, 0, 0, 0.15);
+    --error-bg: #FFEBEE;
+    --error-text: #D32F2F;
+    --success-color-active: #4CAF50; /* Green for active status */
+    --error-color-inactive: #F44336; /* Red for inactive status */
+    --font-primary: 'Inter', sans-serif;
+    --font-heading: 'Roboto', sans-serif;
+}
+
+.members-container {
+    background-color: var(--bg-main);
+    padding: 2.5rem;
+    padding-top: 0;
+    border-radius: 12px;
+    max-width: 1200px; /* Adjust as needed */
+    margin: 2.5rem auto;
+    color: var(--text-primary);
+    box-shadow: 0 10px 30px var(--shadow-medium);
+    font-family: var(--font-primary);
+    border: 1px solid var(--primary-yellow);
+    position: relative;
+    overflow: hidden;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Loading and Error States */
+.loading-state, .error-state {
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    width: 100%;
+}
+
+.status-message.error-message {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--error-text);
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.status-message.no-members-message {
+    padding: 2rem;
+    color: var(--text-secondary);
+}
+
+/* Main Heading Bar (consistent with other pages) */
+.main-heading-bar {
+    background-color: var(--primary-yellow);
+    color: var(--text-primary);
+    padding: 1rem 2.5rem; /* Add horizontal padding for content */
+    margin: 0 -2.5rem 2rem;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-family: var(--font-heading);
+    width: calc(100% + 5rem);
+    display: flex; /* Use flex to align title and button */
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-heading-bar h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 2.2rem;
+    letter-spacing: -0.04em;
+    text-shadow: none;
+    flex-grow: 1; /* Allow title to grow */
+    text-align: left; /* Align title to left */
+}
+
+.back-button {
+    background-color: var(--text-primary); /* Black button */
+    color: var(--primary-yellow); /* Yellow text on black button */
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0; /* Prevent shrinking */
+    margin-left: 1rem; /* Space from title */
+    margin-right: 1rem;
+}
+
+.back-button:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Member Badges Grid Container */
+.member-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Flexible grid for badges */
+    gap: 1.5rem;
+    width: 100%;
+    padding-bottom: 1.5rem;
+}
+
+/* Individual Member Badge */
+.member-badge {
+    background-color: var(--bg-element);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px var(--shadow-light);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.member-badge:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px var(--shadow-medium);
+}
+
+.badge-initial-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.member-initial {
+    background-color: var(--primary-yellow);
+    color: var(--text-primary);
+    font-weight: bold;
+    font-size: 2.2rem; /* Larger initial */
+    width: 70px; /* Larger circle */
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(255, 215, 0, 0.4);
+    border: 2px solid var(--text-primary); /* Black border for initial */
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    border: 2px solid var(--bg-element); /* Border matches badge background */
+}
+
+.status-indicator.active {
+    color: var(--success-color-active);
+    background-color: var(--success-color-active); /* Fill background */
+}
+
+.status-indicator.inactive {
+    color: var(--error-color-inactive);
+    background-color: var(--error-color-inactive); /* Fill background */
+}
+
+.status-indicator svg {
+    font-size: 0.6em; /* Smaller dot icon */
+    color: white; /* White dot inside color */
+}
+
+
+.badge-details {
+    width: 100%;
+}
+
+.member-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+}
+
+.member-info {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center text with icon */
+    gap: 0.5rem;
+}
+
+.member-info svg {
+    color: var(--text-primary); /* Yellow icons for details */
+    font-size: 1.1em;
+    flex-shrink: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .members-container {
+        padding: 2rem;
+        padding-top: 0;
+        margin: 2rem auto;
+        max-width: 95%;
+        border-radius: 30px;
+    }
+
+    .main-heading-bar {
+        margin: 0 -2rem 1.5rem;
+        padding: 0.8rem 1.5rem;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        width: calc(100% + 4rem);
+    }
+
+    .main-heading-bar h2 {
+        font-size: 2rem;
+    }
+
+    .back-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        margin: 4rem;
+    }
+
+    .member-badges-grid {
+        gap: 1.2rem;
+    }
+
+    .member-badge {
+        padding: 1.2rem;
+    }
+
+    .member-initial {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    .status-indicator {
+        width: 18px;
+        height: 18px;
+        border: 1.5px solid var(--bg-element);
+    }
+
+    .member-name {
+        font-size: 1.4rem;
+    }
+
+    .member-info {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .members-container {
+        padding: 1.5rem;
+        padding-top: 0;
+        margin: 1.5rem auto;
+        border-radius: 20px;
+    }
+
+    .main-heading-bar {
+        margin: 0 -1.5rem 1.2rem;
+        padding: 0.7rem 1rem;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        width: calc(100% + 3rem);
+        flex-direction: column; /* Stack header elements on small screens */
+        gap: 0.8rem;
+    }
+
+    .main-heading-bar h2 {
+        font-size: 1.8rem;
+        text-align: center; /* Center title when stacked */
+    }
+
+    .back-button {
+        margin-left: 0; /* Remove margin when stacked */
+        width: 80%; /* Make button wider */
+        max-width: 200px;
+    }
+
+    .member-badges-grid {
+        grid-template-columns: 1fr; /* Stack badges vertically on very small screens */
+        gap: 1rem;
+    }
+
+    .member-badge {
+        padding: 1rem;
+    }
+
+    .member-initial {
+        width: 50px;
+        height: 50px;
+        font-size: 1.8rem;
+    }
+
+    .status-indicator {
+        width: 16px;
+        height: 16px;
+        border: 1px solid var(--bg-element);
+    }
+
+    .member-name {
+        font-size: 1.2rem;
+    }
+
+    .member-info {
+        font-size: 0.85rem;
+    }
+}

@@ -1,25 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react'; // Added useRef
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout as logoutAction } from '../features/auth/authSlice';
-import '../styles/Layout.css'; // This will be our new, unique CSS
+import '../styles/Layout.css';
 
-// Icons for a cleaner UI (install react-icons if not already: npm install react-icons)
-import { FaBars, FaTimes, FaUserCircle, FaSignOutAlt, FaCog } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 
 const menus = {
   employee: [
     { to: '/dashboard', label: 'Dashboard' },
     { to: '/my-assessment', label: 'My Assessment' },
     { to: '/skill-matrix', label: 'Skill Matrix' },
-    { to: '/skill-upgrade-guide', label: 'Upgrade Guide' },
+    { to: '/skill-criteria', label: 'Skill Criteria' },
   ],
   lead: [
     { to: '/dashboard', label: 'Dashboard' },
     { to: '/team-assessments', label: 'Team Assessments' },
     { to: '/skill-matrix', label: 'Skill Matrix' },
     { to: '/skill-criteria', label: 'Skill Criteria' },
-    { to: '/skill-upgrade-guide', label: 'Upgrade Guide' },
+    { to: '/manage-employees', label: 'View Teams' },
   ],
   hr: [
     { to: '/dashboard', label: 'Dashboard' },
@@ -41,10 +40,9 @@ const CommonLayout = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
-  // Refs for clicking outside to close menus
   const profileMenuRef = useRef(null);
   const mobileNavRef = useRef(null);
-  const mobileToggleRef = useRef(null); // Ref for hamburger button
+  const mobileToggleRef = useRef(null);
 
   const handleLogout = () => {
     dispatch(logoutAction());
@@ -59,23 +57,20 @@ const CommonLayout = () => {
   const toggleProfileMenu = () => setIsProfileMenuOpen((prev) => !prev);
   const toggleMobileNav = () => setIsMobileNavOpen((prev) => !prev);
 
-  // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
-      // Profile menu
       if (profileMenuRef.current && !profileMenuRef.current.contains(e.target) && isProfileMenuOpen) {
         setIsProfileMenuOpen(false);
       }
-      // Mobile nav
       if (mobileNavRef.current && !mobileNavRef.current.contains(e.target) &&
           mobileToggleRef.current && !mobileToggleRef.current.contains(e.target) && isMobileNavOpen) {
         setIsMobileNavOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside); // Use mousedown for better behavior
+    document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isProfileMenuOpen, isMobileNavOpen]); // Dependencies updated
+  }, [isProfileMenuOpen, isMobileNavOpen]);
 
   useEffect(() => {
     if (!user) {
@@ -83,7 +78,6 @@ const CommonLayout = () => {
     }
   }, [user, navigate]);
 
-  // Close mobile nav on route change
   useEffect(() => {
     setIsMobileNavOpen(false);
   }, [location.pathname]);
@@ -106,11 +100,9 @@ const CommonLayout = () => {
             <span className="app-logo">SKILL </span>
             <span className="app-name">Matrix</span>
           </div>
-          {/* Current page title shown as a breadcrumb or primary heading */}
           <h1 className="current-page-title">{currentPageLabel}</h1>
         </div>
 
-        {/* Desktop Navigation */}
         <nav className="main-navigation desktop-nav">
           <ul className="nav-list">
             {(menus[role] || []).map(({ to, label }) => (
@@ -138,14 +130,12 @@ const CommonLayout = () => {
               </div>
             )}
           </div>
-          {/* Mobile Hamburger Toggle */}
           <button className="mobile-nav-toggle" onClick={toggleMobileNav} aria-label="Toggle navigation" ref={mobileToggleRef}>
             {isMobileNavOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
       </header>
 
-      {/* Mobile Navigation (Overlay) */}
       {isMobileNavOpen && (
         <nav className="mobile-navigation-overlay" ref={mobileNavRef}>
           <ul className="mobile-nav-list">
@@ -165,7 +155,6 @@ const CommonLayout = () => {
           </ul>
         </nav>
       )}
-
 
       <main className="content-area-wrapper">
         <Outlet />

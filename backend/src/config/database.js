@@ -8,7 +8,7 @@ export const AppDataSource = new DataSource({
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    synchronize: true, // use false in production
+    synchronize: true, 
     logging: false,
     entities: ['src/entities/*.js'],
   });
@@ -19,6 +19,6 @@ export const AppDataSource = new DataSource({
         console.log('Database connected successfully!');
     } catch (error) {
         console.error('Database connection error:', error);
-        process.exit(1); // Exit process if DB connection fails
+        process.exit(1); 
     }
 };
