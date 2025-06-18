@@ -1,0 +1,239 @@
+.team-skill-matrix-container {
+    font-family: 'Arial', sans-serif;
+    padding: 2rem;
+    background-color: #f4f7f6;
+    margin: 2.5rem auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    color: #333;
+    max-width: 1400px;
+}
+
+.team-skill-matrix-loading,
+.team-skill-matrix-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    font-size: 1.1em;
+    color: #555;
+    gap: 8px;
+}
+
+.team-skill-matrix-error {
+    color: #721c24;
+}
+
+.team-skill-matrix-heading {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.2rem;
+    font-size: 2.2em;
+    font-family: 'Georgia', serif;
+    padding-bottom: 0.6rem;
+    border-bottom: 3px solid #FFC107;
+}
+
+.team-skill-matrix-period {
+    text-align: center;
+    color: #555;
+    font-size: 1em;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.filters-section {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    border: 1px solid #ccc;
+}
+
+.filters-subheading, .display-subheading {
+    color: #333;
+    font-size: 1.4em;
+    font-family: 'Georgia', serif;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #ccc;
+}
+
+.filters-subheading .filter-icon {
+    color: #FFC107;
+    font-size: 0.9em;
+}
+
+/* --- NEW FILTER LAYOUT START --- */
+.filters-grid {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    gap: 20px; /* Space between filter groups */
+    justify-content: flex-start; /* Align items to the start */
+    align-items: flex-end; /* Align inputs/selects at the bottom for consistent height */
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1; /* Allows items to grow and shrink */
+    min-width: 200px; /* Minimum width for each filter group */
+    max-width: 300px; /* Optional: control max width for larger screens */
+}
+
+.filter-group label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 0; /* Remove default margin */
+}
+
+.filter-group select,
+.filter-group input[type="number"] {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95em;
+    background-color: #fdfdfd;
+    color: #333;
+    width: 100%; /* Make inputs/selects take full width of their group */
+    box-sizing: border-box; /* Include padding/border in width */
+}
+
+.rating-input {
+    width: 80px; /* Keep specific width for rating input */
+    flex-shrink: 0; /* Prevent it from shrinking on smaller screens */
+}
+
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    margin-top: auto; /* Push to the bottom if other inputs are taller */
+    padding-bottom: 2px; /* Slight padding to align with other inputs */
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    transform: scale(1.2);
+    accent-color: #007bff;
+}
+
+.clear-filters-btn {
+    padding: 10px 15px; /* Slightly more padding for button */
+    background-color: rgba(240, 240, 39, 0.922);
+    color: black;
+    border: 1px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+    align-self: flex-end; /* Align button to the bottom of the row */
+    min-width: 120px; /* Give the button a reasonable minimum width */
+    box-sizing: border-box;
+    margin-bottom: -5px;
+}
+
+.clear-filters-btn:hover {
+    border : 1px solid rgba(240, 240, 39, 0.922);
+    background-color: black;
+    color: rgba(240, 240, 39, 0.922);
+}
+/* --- NEW FILTER LAYOUT END --- */
+
+
+.skill-matrix-display-section {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ccc;
+}
+
+.no-data-message {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.1em;
+    color: #555;
+    background-color: #fdfdfd;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    color: #FFC107;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 992px) {
+    /* Filters will naturally wrap with flex-wrap */
+    .filter-group {
+        min-width: 250px; /* Adjust min-width for tablet views */
+    }
+}
+
+@media (max-width: 768px) {
+    .team-skill-matrix-container {
+        padding: 1.5rem;
+        margin: 1.5rem auto;
+    }
+
+    .team-skill-matrix-heading {
+        font-size: 2em;
+    }
+
+    .filters-grid {
+        flex-direction: column; /* Stack filters vertically on small screens */
+        align-items: stretch; /* Make them fill the width */
+    }
+
+    .filter-group {
+        max-width: 100%; /* Allow groups to take full width */
+    }
+
+    .clear-filters-btn {
+        width: 100%;
+        align-self: center; /* Center button when stacked */
+    }
+}
+
+@media (max-width: 480px) {
+    .team-skill-matrix-container {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .team-skill-matrix-heading {
+        font-size: 1.8em;
+    }
+
+    .filter-group label {
+        font-size: 0.85em;
+    }
+
+    .filter-group select,
+    .filter-group input[type="number"] {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+}

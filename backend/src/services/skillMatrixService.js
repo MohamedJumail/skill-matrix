@@ -3,9 +3,13 @@ import { Assessment } from '../entities/Assessment.js';
 import { SkillMatrix } from '../entities/SkillMatrix.js';
 import { DesignationSkillThreshold } from '../entities/DesignationSkillThreshold.js';
 import { SkillProgression } from '../entities/SkillProgression.js';
-
-
+import { Employee } from '../entities/Employee.js';
+import { Team } from '../entities/Team.js';
+import { Skill } from '../entities/Skill.js';
+import { Category } from '../entities/Category.js';
+import { EmployeeCategoryAssociation } from '../entities/EmployeeCategoryAssociation.js'; // Import the EntitySchema
 import { getCurrentQuarterYear } from '../utils/dateUtils.js';
+import { In } from 'typeorm';
 
 const skillMatrixService = {
   getEmployeeApprovedSkillMatrix: async (employeeId) => {
@@ -34,7 +38,7 @@ const skillMatrixService = {
 
     const employeeSkillRatings = await skillMatrixRepo.find({
       where: { assessment_id: approvedAssessment.assessment_id },
-      relations: ['skill'],
+      relations: ['skill', 'skill.category'],
     });
 
     const designationTargets = await designationThresholdRepo.find({
@@ -60,6 +64,8 @@ const skillMatrixService = {
         skill_matrix_id: entry.skill_matrix_id,
         skill_id: skillId,
         skill_name: entry.skill.skill_name,
+        category_id: entry.skill.category ? entry.skill.category.category_id : null,
+        category_name: entry.skill.category ? entry.skill.category.category_name : 'Uncategorized',
         employee_rating: entry.employee_rating,
         lead_rating: entry.lead_rating,
         current_rating: entry.lead_rating,
@@ -89,8 +95,8 @@ const skillMatrixService = {
           skill_name: true,
         },
         category: {
-            category_id: true,
-            category_name: true
+          category_id: true,
+          category_name: true
         },
         fromLevel: {
           level_id: true,
@@ -135,6 +141,136 @@ const skillMatrixService = {
       hr_approve: approvedAssessment.hr_approve,
       skills: skillsWithTargets,
       skill_progression_paths: formattedProgressionPaths,
+    };
+  },
+
+  getEmployeeApprovedSkillMatrixById: async (employeeId) => {
+    return skillMatrixService.getEmployeeApprovedSkillMatrix(employeeId);
+  },
+
+  getTeamSkillMatrix: async (leadId) => {
+    const teamRepo = AppDataSource.getRepository(Team);
+    const employeeRepo = AppDataSource.getRepository(Employee);
+    const designationThresholdRepo = AppDataSource.getRepository(DesignationSkillThreshold);
+    const skillRepo = AppDataSource.getRepository(Skill);
+    const employeeCategoryAssociationRepo = AppDataSource.getRepository(EmployeeCategoryAssociation);
+
+    const { quarter, year } = getCurrentQuarterYear();
+
+    const teamsLedByLead = await teamRepo.find({
+      where: { lead_id: leadId },
+      relations: ['employees'],
+    });
+
+    const allTeamMembers = [];
+    teamsLedByLead.forEach(team => {
+      team.employees.filter(emp => emp.is_active).forEach(emp => {
+        allTeamMembers.push(emp);
+      });
+    });
+
+    const uniqueTeamMembers = Array.from(new Map(allTeamMembers.map(member => [member.employee_id, member])).values());
+
+    const teamSkillMatrices = [];
+
+    for (const member of uniqueTeamMembers) {
+      const memberSkillMatrix = await skillMatrixService.getEmployeeApprovedSkillMatrixById(member.employee_id);
+
+      let employeeSkills;
+      let employeeDesignationName;
+
+      if (memberSkillMatrix) {
+        employeeSkills = memberSkillMatrix.skills;
+        employeeDesignationName = memberSkillMatrix.designation_name || 'N/A';
+      } else {
+        const employeeWithDesignation = await employeeRepo.findOne({
+          where: { employee_id: member.employee_id },
+          relations: ['designation']
+        });
+
+        const designationId = employeeWithDesignation?.designation?.designation_id;
+        employeeDesignationName = employeeWithDesignation?.designation?.designation_name || 'N/A';
+
+        let skillsForUnfilledMatrix = [];
+
+        // Get categories associated with the employee
+        const employeeCategoryAssociations = await employeeCategoryAssociationRepo.find({
+            where: { employee_id: member.employee_id },
+            relations: ['category']
+        });
+
+        const categoryIds = employeeCategoryAssociations.map(assoc => assoc.category.category_id);
+
+        if (categoryIds.length > 0) {
+          const skillsByAssociatedCategories = await skillRepo.find({
+            where: {
+              category: {
+                category_id: In(categoryIds)
+              }
+            },
+            relations: ['category'],
+            order: { skill_name: 'ASC' }
+          });
+
+          // Fetch designation targets for the employee's designation, specifically for these skills
+          const designationTargets = designationId
+            ? await designationThresholdRepo.find({
+                where: {
+                  designation_id: designationId,
+                  skill: { skill_id: In(skillsByAssociatedCategories.map(s => s.skill_id)) }
+                },
+                relations: ['skill'],
+                select: {
+                  skill_id: true,
+                  threshold: true,
+                }
+              })
+            : [];
+
+          const targetsMap = new Map();
+          designationTargets.forEach(target => {
+            targetsMap.set(target.skill_id, target.threshold);
+          });
+
+          skillsForUnfilledMatrix = skillsByAssociatedCategories.map(skill => ({
+            skill_id: skill.skill_id,
+            skill_name: skill.skill_name,
+            category_id: skill.category ? skill.category.category_id : null,
+            category_name: skill.category ? skill.category.category_name : 'Uncategorized',
+            employee_rating: null,
+            lead_rating: null,
+            current_rating: null,
+            designation_target: targetsMap.get(skill.skill_id) || 0,
+          }));
+        }
+        employeeSkills = skillsForUnfilledMatrix;
+      }
+
+      // --- Calculate average_current_rating ---
+      const validRatings = employeeSkills
+        .map(skill => skill.current_rating)
+        .filter(rating => rating !== null && rating !== undefined); // Filter out null or undefined ratings
+
+      let averageCurrentRating = null;
+      if (validRatings.length > 0) {
+        const sumOfRatings = validRatings.reduce((sum, rating) => sum + rating, 0);
+        averageCurrentRating = parseFloat((sumOfRatings / validRatings.length).toFixed(2)); // Round to 2 decimal places
+      }
+      // --- End average_current_rating calculation ---
+
+      teamSkillMatrices.push({
+        employee_id: member.employee_id,
+        employee_name: member.employee_name,
+        designation_name: employeeDesignationName,
+        skills: employeeSkills,
+        average_current_rating: averageCurrentRating, // Add the new field here
+      });
+    }
+
+    return {
+      quarter,
+      year,
+      team_members_skill_matrices: teamSkillMatrices,
     };
   },
 };

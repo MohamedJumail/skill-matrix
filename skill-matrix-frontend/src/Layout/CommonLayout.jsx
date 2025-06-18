@@ -15,8 +15,8 @@ const menus = {
   ],
   lead: [
     { to: '/dashboard', label: 'Dashboard' },
-    { to: '/team-assessments', label: 'Team Assessments' },
-    { to: '/skill-matrix', label: 'Skill Matrix' },
+    { to: '/team-assessments', label: 'Assessments' },
+    { to: '/team-skill-matrix', label: 'Skill Matrix' },
     { to: '/skill-criteria', label: 'Skill Criteria' },
     { to: '/manage-employees', label: 'View Teams' },
   ],

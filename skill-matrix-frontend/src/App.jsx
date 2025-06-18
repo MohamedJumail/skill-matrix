@@ -21,6 +21,7 @@ import EmployeeAssessmentPage from "./pages/EmployeeAssessmentPage.jsx";
 import LeadTeamAssessmentsPage from "./pages/LeadTeamAssessmentsPage.jsx";
 import HRPendingAssessments from "./pages/HRPendingAssessments.jsx";
 import SkillMatrix from "./pages/SkillMatrix.jsx";
+import TeamSkillMatrixDashboardPage from "./pages/TeamSkillMatrixDashboardPage.jsx";
 
 const App = () => {
   const token = useSelector((state) => state.auth.token);
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="team-assessments" element={<LeadTeamAssessmentsPage />} />
           <Route path="pending-assessments" element={<HRPendingAssessments />} />
           <Route path="skill-matrix" element={<SkillMatrix />} />
+          <Route path="team-skill-matrix" element={<TeamSkillMatrixDashboardPage />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
 
