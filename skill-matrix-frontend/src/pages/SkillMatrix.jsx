@@ -1,31 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaSpinner, FaInfoCircle, FaComments, FaChartLine, FaExclamationTriangle, FaLightbulb } from 'react-icons/fa';
-import api from '../api';
 import '../styles/SkillMatrix.css';
 import SkillRatingsVisualization from './SkillRatingsVisualization';
 import SkillProgressionSection from './SkillProgressionSection';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchSkillMatrix, setSelectedSkill } from '../features/auth/skillMatrixSlice';
 
 const SkillMatrix = () => {
-  const [skillMatrixData, setSkillMatrixData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedSkill, setSelectedSkill] = useState(null);
+  const dispatch = useDispatch();
+
+  const skillMatrixData = useSelector((state) => state.skillMatrix.data);
+  const loading = useSelector((state) => state.skillMatrix.loading);
+  const error = useSelector((state) => state.skillMatrix.error);
+  const selectedSkill = useSelector((state) => state.skillMatrix.selectedSkill);
 
   useEffect(() => {
-    const fetchSkillMatrix = async () => {
-      try {
-        const response = await api.get('/employee/approved-skill-matrix');
-        setSkillMatrixData(response.data);
-      } catch (err) {
-        setError(err.response?.data?.message || err.message || 'Failed to fetch skill matrix');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSkillMatrix();
-  }, []);
+    dispatch(fetchSkillMatrix());
+  }, [dispatch]);
 
   const getRatingColor = (rating) => {
     switch (rating) {
@@ -117,8 +109,7 @@ const SkillMatrix = () => {
                       variants={cellVariants}
                       initial="hidden"
                       animate="visible"
-                      onClick={() => setSelectedSkill(skill)}
-                      // REMOVED: Conditional background color based on selectedSkill
+                      onClick={() => dispatch(setSelectedSkill(skill))}
                       style={{ cursor: 'pointer' }}
                     >
                       {skill.skill_name}
@@ -135,12 +126,11 @@ const SkillMatrix = () => {
                     <motion.td
                       key={skill.skill_id}
                       className="heatmap-rating-cell"
-                      // MODIFIED: Retained original rating color, removed selectedSkill highlight
                       style={{ backgroundColor: getRatingColor(skill.current_rating), cursor: 'pointer' }}
                       variants={cellVariants}
                       initial="hidden"
                       animate="visible"
-                      onClick={() => setSelectedSkill(skill)}
+                      onClick={() => dispatch(setSelectedSkill(skill))}
                     >
                       {skill.current_rating}
                     </motion.td>
@@ -154,12 +144,11 @@ const SkillMatrix = () => {
                     <motion.td
                       key={`target-${skill.skill_id}`}
                       className="heatmap-target-cell"
-                      // MODIFIED: Retained original target color, removed selectedSkill highlight
                       style={{ backgroundColor: getRatingColor(skill.designation_target), cursor: 'pointer' }}
                       variants={cellVariants}
                       initial="hidden"
                       animate="visible"
-                      onClick={() => setSelectedSkill(skill)}
+                      onClick={() => dispatch(setSelectedSkill(skill))}
                     >
                       {skill.designation_target}
                     </motion.td>
@@ -182,7 +171,7 @@ const SkillMatrix = () => {
 
           <motion.div className="skill-insights-left" variants={itemVariants}>
             <h4>Current Skill Ratings vs. Targets</h4>
-            <SkillRatingsVisualization skills={skillMatrixData.skills} setSelectedSkill={setSelectedSkill} />
+            <SkillRatingsVisualization />
           </motion.div>
 
           <motion.div className="skill-insights-right" variants={itemVariants}>
@@ -195,10 +184,7 @@ const SkillMatrix = () => {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <SkillProgressionSection
-                    selectedSkill={selectedSkill}
-                    allProgressionPaths={skillMatrixData.skill_progression_paths}
-                  />
+                  <SkillProgressionSection />
                 </motion.div>
               ) : (
                 <motion.div
@@ -231,7 +217,7 @@ const SkillMatrix = () => {
             <p className="comment-content">{skillMatrixData.lead_comments || 'N/A'}</p>
           </motion.div>
           <motion.div className="skill-matrix-comment-box" variants={itemVariants}>
-            <p className="comment-label">HR's Remarks:</p>
+            <p className="comment-label">HR Remark</p>
             <p className="comment-content">{skillMatrixData.hr_comments || 'N/A'}</p>
           </motion.div>
         </div>

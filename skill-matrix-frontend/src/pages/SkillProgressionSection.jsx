@@ -2,8 +2,12 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaGraduationCap, FaLink, FaCheckCircle, FaLightbulb, FaTimesCircle } from 'react-icons/fa';
 import '../styles/SkillProgressionSection.css';
+import { useSelector } from 'react-redux';
 
-const SkillProgressionSection = ({ selectedSkill, allProgressionPaths }) => {
+const SkillProgressionSection = () => {
+  const selectedSkill = useSelector((state) => state.skillMatrix.selectedSkill);
+  const allProgressionPaths = useSelector((state) => state.skillMatrix.data?.skill_progression_paths || []);
+
   if (!selectedSkill) {
     return null;
   }
@@ -77,7 +81,7 @@ const SkillProgressionSection = ({ selectedSkill, allProgressionPaths }) => {
     >
       <h4><FaGraduationCap /> Progression for {selectedSkill.skill_name}</h4>
       <p className="current-target-info">
-        Your Current Rating: <strong>{current_rating}</strong> | Designation Target: <strong>{designation_target}</strong>
+        Your Current Rating: <strong>{current_rating}</strong>  | Designation Target: <strong>{designation_target}</strong>
       </p>
 
       <AnimatePresence mode="wait">
@@ -98,11 +102,11 @@ const SkillProgressionSection = ({ selectedSkill, allProgressionPaths }) => {
                 <p className="path-status"><FaCheckCircle className="icon-success" /> Reached Max Level!</p>
               )}
               {!path.isBeyondTarget && !path.isMaxLevel && current_rating < designation_target && (
-                 <p className="path-status"><FaLightbulb className="icon-info" /> To reach target, next step is from <strong>Level {path.from_level_number}</strong> to <strong>Level {path.to_level_number}</strong></p>
-              )}
+                   <p className="path-status"><FaLightbulb className="icon-info" /> To reach target, next step is from <strong>Level {path.from_level_number}</strong> to <strong>Level {path.to_level_number}</strong></p>
+               )}
               {!path.isBeyondTarget && !path.isMaxLevel && current_rating >= designation_target && pathsToShow.length === 1 && !path.to_level_number && (
-                 <p className="path-status"><FaCheckCircle className="icon-success" /> You've already met or exceeded the target for this skill.</p>
-              )}
+                   <p className="path-status"><FaCheckCircle className="icon-success" /> You've already met or exceeded the target for this skill.</p>
+               )}
 
 
               {path.from_level_description && (
@@ -139,3 +143,4 @@ const SkillProgressionSection = ({ selectedSkill, allProgressionPaths }) => {
 };
 
 export default SkillProgressionSection;
+

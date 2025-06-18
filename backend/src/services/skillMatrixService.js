@@ -3,8 +3,7 @@ import { Assessment } from '../entities/Assessment.js';
 import { SkillMatrix } from '../entities/SkillMatrix.js';
 import { DesignationSkillThreshold } from '../entities/DesignationSkillThreshold.js';
 import { SkillProgression } from '../entities/SkillProgression.js';
-import { SkillLevelDetailed } from '../entities/SkillLevelDetailed.js'; 
-import { Skill } from '../entities/Skill.js'; 
+
 
 import { getCurrentQuarterYear } from '../utils/dateUtils.js';
 

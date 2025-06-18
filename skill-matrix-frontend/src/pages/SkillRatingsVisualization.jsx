@@ -4,6 +4,8 @@ import {
 } from 'recharts';
 import { motion } from 'framer-motion';
 import '../styles/SkillRatingsVisualization.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedSkill } from '../features/auth/skillMatrixSlice';
 
 const getRatingColor = (rating) => {
   switch (rating) {
@@ -16,7 +18,10 @@ const getRatingColor = (rating) => {
   }
 };
 
-const SkillRatingsVisualization = ({ skills, setSelectedSkill }) => {
+const SkillRatingsVisualization = () => {
+  const dispatch = useDispatch();
+  const skills = useSelector((state) => state.skillMatrix.data?.skills || []);
+
   const chartData = skills.map(skill => ({
     name: skill.skill_name,
     currentRating: skill.current_rating,
@@ -103,7 +108,7 @@ const SkillRatingsVisualization = ({ skills, setSelectedSkill }) => {
             fill={(data) => data.fill}
             label={<CustomBarLabel />}
             activeBar={{ fill: 'url(#colorRating)', stroke: 'rgba(0,0,0,0.2)', strokeWidth: 1 }}
-            onClick={(data) => setSelectedSkill(data.skillDetails)}
+            onClick={(data) => dispatch(setSelectedSkill(data.skillDetails))}
             style={{ cursor: 'pointer' }}
           />
         </BarChart>
@@ -113,3 +118,4 @@ const SkillRatingsVisualization = ({ skills, setSelectedSkill }) => {
 };
 
 export default SkillRatingsVisualization;
+
