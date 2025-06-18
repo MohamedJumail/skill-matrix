@@ -1,0 +1,98 @@
+.skill-progression-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .skill-progression-section h4 {
+    color: #3f51b5;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .skill-progression-section h4 svg {
+    margin-right: 8px;
+  }
+  
+  .current-target-info {
+    margin-bottom: 20px;
+    font-size: 0.95em;
+    color: #555;
+  }
+  
+  .current-target-info strong {
+    color: #333;
+  }
+  
+  .progression-path-item {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  }
+  
+  .progression-path-item p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #444;
+  }
+  
+  .progression-path-item p strong {
+    color: #333;
+  }
+  
+  .progression-path-item a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .progression-path-item a:hover {
+    text-decoration: underline;
+  }
+  
+  .path-status {
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9em;
+  }
+  
+  .icon-info {
+      color: #2196f3;
+  }
+  
+  .icon-success {
+      color: #4CAF50;
+  }
+  
+  .icon-error {
+      color: #f44336;
+  }
+  
+  .progression-path-item.beyond-target {
+    border-left: 5px solid #4CAF50;
+    background-color: #e8f5e9;
+  }
+  
+  .progression-path-item.max-level-achieved {
+    border-left: 5px solid #00BCD4; /* Cyan color */
+    background-color: #e0f7fa;
+  }
+  
+  .no-progression-info {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+    font-style: italic;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+  }

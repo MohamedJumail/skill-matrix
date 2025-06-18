@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaSpinner, FaInfoCircle, FaComments, FaChartLine, FaExclamationTriangle } from 'react-icons/fa';
+import { FaSpinner, FaInfoCircle, FaComments, FaChartLine, FaExclamationTriangle, FaLightbulb } from 'react-icons/fa';
 import api from '../api';
 import '../styles/SkillMatrix.css';
 import SkillRatingsVisualization from './SkillRatingsVisualization';
+import SkillProgressionSection from './SkillProgressionSection';
 
 const SkillMatrix = () => {
   const [skillMatrixData, setSkillMatrixData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedSkill, setSelectedSkill] = useState(null);
 
   useEffect(() => {
     const fetchSkillMatrix = async () => {
@@ -115,6 +117,9 @@ const SkillMatrix = () => {
                       variants={cellVariants}
                       initial="hidden"
                       animate="visible"
+                      onClick={() => setSelectedSkill(skill)}
+                      // REMOVED: Conditional background color based on selectedSkill
+                      style={{ cursor: 'pointer' }}
                     >
                       {skill.skill_name}
                     </motion.th>
@@ -130,12 +135,33 @@ const SkillMatrix = () => {
                     <motion.td
                       key={skill.skill_id}
                       className="heatmap-rating-cell"
-                      style={{ backgroundColor: getRatingColor(skill.lead_rating) }}
+                      // MODIFIED: Retained original rating color, removed selectedSkill highlight
+                      style={{ backgroundColor: getRatingColor(skill.current_rating), cursor: 'pointer' }}
                       variants={cellVariants}
                       initial="hidden"
                       animate="visible"
+                      onClick={() => setSelectedSkill(skill)}
                     >
-                      {skill.lead_rating}
+                      {skill.current_rating}
+                    </motion.td>
+                  ))}
+                </AnimatePresence>
+              </tr>
+              <tr>
+                <td className="heatmap-label-cell">Target</td>
+                <AnimatePresence>
+                  {skillMatrixData.skills.map(skill => (
+                    <motion.td
+                      key={`target-${skill.skill_id}`}
+                      className="heatmap-target-cell"
+                      // MODIFIED: Retained original target color, removed selectedSkill highlight
+                      style={{ backgroundColor: getRatingColor(skill.designation_target), cursor: 'pointer' }}
+                      variants={cellVariants}
+                      initial="hidden"
+                      animate="visible"
+                      onClick={() => setSelectedSkill(skill)}
+                    >
+                      {skill.designation_target}
                     </motion.td>
                   ))}
                 </AnimatePresence>
@@ -155,13 +181,38 @@ const SkillMatrix = () => {
         <div className="skill-insights-flex-wrapper">
 
           <motion.div className="skill-insights-left" variants={itemVariants}>
-            <h4>Current Skill Ratings Breakdown</h4>
-            <SkillRatingsVisualization skills={skillMatrixData.skills} />
+            <h4>Current Skill Ratings vs. Targets</h4>
+            <SkillRatingsVisualization skills={skillMatrixData.skills} setSelectedSkill={setSelectedSkill} />
           </motion.div>
 
           <motion.div className="skill-insights-right" variants={itemVariants}>
-            <h4>Skill Progression (Coming Soon)</h4>
-            <p>This section will show how your skills have evolved over time across different assessment periods.</p>
+            <AnimatePresence mode="wait">
+              {selectedSkill ? (
+                <motion.div
+                  key={selectedSkill.skill_id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <SkillProgressionSection
+                    selectedSkill={selectedSkill}
+                    allProgressionPaths={skillMatrixData.skill_progression_paths}
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="no-skill-selected"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h4><FaLightbulb /> Click a Skill for Progression Paths</h4>
+                  <p>Select any skill from the table or chart to see detailed guidance and resources for improvement.</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
 
         </div>
